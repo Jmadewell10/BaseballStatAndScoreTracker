@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BaseballStatAndScoreTracker.Common\BaseballStatAndScoreTracker.Common.csproj" />
+    <ProjectReference Include="..\BaseballStatAndScoreTracker.Repository\BaseballStatAndScoreTracker.Repository.csproj" />
   </ItemGroup>
 
 </Project>

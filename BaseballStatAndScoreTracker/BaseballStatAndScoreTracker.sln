@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseballStatAndScoreTracker.API", "BaseballStatAndScoreTrackerAPI\BaseballStatAndScoreTracker.API.csproj", "{303CE6D9-E30D-406B-9D8F-D2BB17778833}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2E408C24-A23C-4CED-A48D-B50C05CBDBD9} = {2E408C24-A23C-4CED-A48D-B50C05CBDBD9}
+		{FE42530A-9CFF-4446-A7F0-03EE4A632668} = {FE42530A-9CFF-4446-A7F0-03EE4A632668}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseballStatAndScoreTracker.Domain", "BaseballStatAndScoreTracker.Domain\BaseballStatAndScoreTracker.Domain.csproj", "{2E408C24-A23C-4CED-A48D-B50C05CBDBD9}"
 EndProject
@@ -11,7 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseballStatAndScoreTracker
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseballStatAndScoreTracker.Services", "BaseballStatAndScoreTracker.Services\BaseballStatAndScoreTracker.Services.csproj", "{E1CE4104-E669-46EE-B40E-1D90029E235F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseballStatAndScoreTracker.Common", "BaseballStatAndScoreTracker.Common\BaseballStatAndScoreTracker.Common.csproj", "{FE42530A-9CFF-4446-A7F0-03EE4A632668}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseballStatAndScoreTracker.Common", "BaseballStatAndScoreTracker.Common\BaseballStatAndScoreTracker.Common.csproj", "{FE42530A-9CFF-4446-A7F0-03EE4A632668}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseballStatAndScoreTracker.Repository", "BaseballStatAndScoreTracker.Repository\BaseballStatAndScoreTracker.Repository.csproj", "{47E0D1DE-0036-40A9-BDBD-8AE4D3F9D3BE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2E408C24-A23C-4CED-A48D-B50C05CBDBD9} = {2E408C24-A23C-4CED-A48D-B50C05CBDBD9}
+		{FE42530A-9CFF-4446-A7F0-03EE4A632668} = {FE42530A-9CFF-4446-A7F0-03EE4A632668}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +49,10 @@ Global
 		{FE42530A-9CFF-4446-A7F0-03EE4A632668}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE42530A-9CFF-4446-A7F0-03EE4A632668}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE42530A-9CFF-4446-A7F0-03EE4A632668}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47E0D1DE-0036-40A9-BDBD-8AE4D3F9D3BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47E0D1DE-0036-40A9-BDBD-8AE4D3F9D3BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47E0D1DE-0036-40A9-BDBD-8AE4D3F9D3BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47E0D1DE-0036-40A9-BDBD-8AE4D3F9D3BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

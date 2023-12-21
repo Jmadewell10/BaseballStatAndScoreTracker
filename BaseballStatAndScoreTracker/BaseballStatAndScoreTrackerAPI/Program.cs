@@ -1,4 +1,6 @@
 using BaseballStatAndScoreTracker.Data;
+using BaseballStatAndScoreTracker.Repository;
+using BaseballStatAndScoreTracker.Repository.Interfaces;
 using BaseballStatAndScoreTracker.Services;
 using BaseballStatAndScoreTracker.Services.Interfaces;
 using Microsoft.Azure.KeyVault;
@@ -7,30 +9,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration.AzureKeyVault;
 
 var builder = WebApplication.CreateBuilder(args);
-var keyVaultEndpoint = builder.Configuration["AzureKeyVaultEndpoint"];
-if (!string.IsNullOrEmpty(keyVaultEndpoint))
-{
-    var azureServiceTokenProvider = new AzureServiceTokenProvider();
-    var keyVaultClient = new KeyVaultClient(
-        new KeyVaultClient.AuthenticationCallback(
-            azureServiceTokenProvider.KeyVaultTokenCallback));
-
-    builder.Configuration.AddAzureKeyVault(
-        keyVaultEndpoint,
-        keyVaultClient,
-        new DefaultKeyVaultSecretManager());
-}
 builder.Services.AddDbContext<StatTrackerContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"),
-        sqlServerOptionsAction: sqlOptions =>
-        {
-            sqlOptions.EnableRetryOnFailure(
-                maxRetryCount: 5,
-                maxRetryDelay: TimeSpan.FromSeconds(30),
-                errorNumbersToAdd: null);
-        });
-});
+
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnectionString"))
+);
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
