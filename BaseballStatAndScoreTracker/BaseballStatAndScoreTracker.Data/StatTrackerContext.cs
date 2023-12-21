@@ -53,6 +53,11 @@ namespace BaseballStatAndScoreTracker.Data
                 .WithOne(g => g.Away)
                 .HasForeignKey(g => g.AwayTeamId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<User>()
+                .HasOne<Key>(u => u.Key)
+                .WithOne(k => k.User)
+                .HasForeignKey<Key>(k => k.UserId);
         }
     }
 }
