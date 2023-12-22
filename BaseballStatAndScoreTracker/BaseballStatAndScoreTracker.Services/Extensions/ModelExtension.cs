@@ -7,12 +7,9 @@ namespace BaseballStatAndScoreTracker.Services.Extensions
     {
         public static (Account, User, Key) CreateNewAccountObjectsFromDto(this NewAccountDto accountDto)
         {
-            ArgumentNullException.ThrowIfNull(accountDto.AccountId);
-            ArgumentNullException.ThrowIfNull(accountDto.Login);
-            ArgumentNullException.ThrowIfNull(accountDto.Login.Password);
-            ArgumentNullException.ThrowIfNull(accountDto.Login.UserName);
+            accountDto.ValidateNewAccountDto();
 
-            var (hash, salt) = PasswordHashExtention.HashPassword(accountDto.Login.Password);
+            var (hash, salt) = PasswordHashExtention.HashPassword(accountDto.Login?.Password ?? "");
 
             Account account = new Account() { 
                 AccountId = Guid.NewGuid(),
@@ -25,7 +22,7 @@ namespace BaseballStatAndScoreTracker.Services.Extensions
             User user = new User()
             {
                 UserId = account.UserId,
-                UserName = accountDto.Login.UserName,
+                UserName = accountDto.Login?.UserName,
                 AccountId = account.AccountId,
                 Password = hash
             };

@@ -1,3 +1,4 @@
+using BaseballStatAndScoreTracker.Common.Constants;
 using BaseballStatAndScoreTracker.Data;
 using BaseballStatAndScoreTracker.Repository;
 using BaseballStatAndScoreTracker.Repository.Interfaces;
@@ -10,7 +11,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<StatTrackerContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnectionString"))
+    options.UseSqlServer(builder.Configuration.GetConnectionString(Constants.SQL_CONNECTION_STRING))
 );
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -21,9 +22,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = "StatTrakIssuer",               
-            ValidAudience = "StatTrakAudience",           
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JimbusChimbus123ABC"))  
+            ValidIssuer = Constants.ISSUER,               
+            ValidAudience = Constants.AUDIENCE,           
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constants.SECRET))  
         };
     });
 builder.Services.AddAuthorization();

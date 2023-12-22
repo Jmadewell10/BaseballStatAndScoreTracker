@@ -1,5 +1,5 @@
-﻿using BaseballStatAndScoreTracker.Common.Models;
-using BaseballStatAndScoreTracker.Domain;
+﻿using BaseballStatAndScoreTracker.Common.Constants;
+using BaseballStatAndScoreTracker.Common.Models;
 using BaseballStatAndScoreTracker.Repository.Interfaces;
 using BaseballStatAndScoreTracker.Services.Extensions;
 using BaseballStatAndScoreTracker.Services.Interfaces;
@@ -11,6 +11,7 @@ namespace BaseballStatAndScoreTracker.Services
 {
     public class AccountService : IAccountService
     {
+
         private readonly IAccountRepository _accountRepository;
 
         public AccountService(IAccountRepository accountRepository)
@@ -18,8 +19,16 @@ namespace BaseballStatAndScoreTracker.Services
             _accountRepository = accountRepository;
         }
 
+        #region public methods
         public async Task<string> AddAccount(NewAccountDto accountDto)
         {
+            IEnumerable<string> users = await _accountRepository.GetAllUserNames();
+            ArgumentNullException.ThrowIfNull(accountDto.Login);
+            bool isValidLoginCred = accountDto.Login.ValidateNewLoginCred(users);
+            if(!isValidLoginCred)
+            {            
+                throw new InvalidOperationException("Invalid login credentials");             
+            }
             var (account, user, key) = accountDto.CreateNewAccountObjectsFromDto();
             string id = await _accountRepository.AddAccount(account, user, key);
             return id;
@@ -36,20 +45,24 @@ namespace BaseballStatAndScoreTracker.Services
             }
             return (String.Empty, false);
         }
+        #endregion
 
+        #region private methods
         private string GenerateToken()
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("JimbusChimbus123ABC"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constants.SECRET));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: "StatTrakIssuer",        
-                audience: "StatTrakAudience",    
+                issuer: Constants.ISSUER,        
+                audience: Constants.AUDIENCE,    
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: creds
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        #endregion
     }
 }

@@ -6,5 +6,6 @@ namespace BaseballStatAndScoreTracker.Repository.Interfaces
     {
         Task<string> AddAccount(Account account, User user, Key key);
         Task<(string, string)> GetKey(string userName);
+        Task<IEnumerable<string>> GetAllUserNames();
     }
 }

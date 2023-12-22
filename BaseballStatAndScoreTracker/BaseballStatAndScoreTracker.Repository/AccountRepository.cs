@@ -34,11 +34,33 @@ namespace BaseballStatAndScoreTracker.Repository
 
         public async Task<(string, string)> GetKey(string userName)
         {
-            User user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName) ?? new User();
-            Key key = await _context.Key.FirstOrDefaultAsync(k => k.UserId == user.UserId) ?? new Key();
-            ArgumentNullException.ThrowIfNull(key.Salt);
-            ArgumentNullException.ThrowIfNull(user.Password);
-            return (key.Salt, user.Password);
+            try
+            {
+                User user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName) ?? new User();
+                Key key = await _context.Key.FirstOrDefaultAsync(k => k.UserId == user.UserId) ?? new Key();
+                ArgumentNullException.ThrowIfNull(key.Salt);
+                ArgumentNullException.ThrowIfNull(user.Password);
+                return (key.Salt, user.Password);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<string>> GetAllUserNames()
+        {
+            try
+            {
+                IEnumerable<string> userNames = await _context.Users.Select(u => u.UserName ?? "").ToListAsync();
+                return userNames;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
+                throw;
+            }
         }
     }
 }
