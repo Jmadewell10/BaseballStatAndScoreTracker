@@ -11,6 +11,7 @@ namespace BaseballStatAndScoreTracker.Data
         public DbSet<Inning> Innings { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<Team> Teams { get; set; }
+        public DbSet<Key> Key { get; set; }
 
 
         public StatTrackerContext(DbContextOptions<StatTrackerContext> options) : base(options)

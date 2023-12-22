@@ -4,6 +4,7 @@ namespace BaseballStatAndScoreTracker.Repository.Interfaces
 {
     public interface IAccountRepository
     {
-        Task<string> AddAccount(Account account);
+        Task<string> AddAccount(Account account, User user, Key key);
+        Task<(string, string)> GetKey(string userName);
     }
 }

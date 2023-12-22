@@ -5,8 +5,15 @@ namespace BaseballStatAndScoreTracker.Services.Extensions
 {
     public static class ModelExtension
     {
-        public static Account TransformNewAccountToAccount(this NewAccountDto accountDto)
+        public static (Account, User, Key) CreateNewAccountObjectsFromDto(this NewAccountDto accountDto)
         {
+            ArgumentNullException.ThrowIfNull(accountDto.AccountId);
+            ArgumentNullException.ThrowIfNull(accountDto.Login);
+            ArgumentNullException.ThrowIfNull(accountDto.Login.Password);
+            ArgumentNullException.ThrowIfNull(accountDto.Login.UserName);
+
+            var (hash, salt) = PasswordHashExtention.HashPassword(accountDto.Login.Password);
+
             Account account = new Account() { 
                 AccountId = Guid.NewGuid(),
                 UserId = Guid.NewGuid(),
@@ -14,20 +21,28 @@ namespace BaseballStatAndScoreTracker.Services.Extensions
                 LastName = accountDto.LastName,
                 Email = accountDto.Email
             };
-            return account;
-        }
 
-        public static User GetUserFromAccountDto(this NewAccountDto account) 
-        {
-            ArgumentNullException.ThrowIfNull(account.AccountId);
             User user = new User()
             {
-                UserId = Guid.NewGuid(),
-                UserName = account.UserName,
-                AccountId = Guid.Parse(account.AccountId),
-                Password = account.Password
+                UserId = account.UserId,
+                UserName = accountDto.Login.UserName,
+                AccountId = account.AccountId,
+                Password = hash
             };
-            return user;
+
+            Key key = new Key()
+            {
+                KeyId = Guid.NewGuid(),
+                UserId = user.UserId,
+                Salt = salt
+            };
+
+            account.UserId = user.UserId;
+            user.AccountId = account.AccountId;
+            user.Account = account;
+            user.KeyId = key.KeyId;
+
+            return (account, user, key);
         }
     }
 }
