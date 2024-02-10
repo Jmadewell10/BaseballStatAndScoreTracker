@@ -1,4 +1,5 @@
-﻿using BaseballStatAndScoreTracker.Common.Models;
+﻿using BaseballStatAndScoreTracker.Common.Constants;
+using BaseballStatAndScoreTracker.Common.Models;
 using BaseballStatAndScoreTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +24,16 @@ namespace BaseballStatAndScoreTracker.API.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<string>> AddAccount([FromBody] NewAccountDto accountDto)
         {
-            ArgumentNullException.ThrowIfNull(accountDto);
-            var result = await _accountService.AddAccount(accountDto);
-            return Ok(result);
+            try
+            {
+                ArgumentNullException.ThrowIfNull(accountDto);
+                var result = await _accountService.AddAccount(accountDto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("Authenticate")]
@@ -39,7 +47,7 @@ namespace BaseballStatAndScoreTracker.API.Controllers
             }
             else
             {
-                return Unauthorized(new { Message = "Invalid Credentials" });
+                return Unauthorized(new { Message = ErrorConstants.INCORRECT_CREDENTIALS });
             }
         }
     }

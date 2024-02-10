@@ -1,0 +1,15 @@
+<nav class="navbar">
+    <div class="container">
+      <div class="logo">Stat Trak</div>
+      <ul *ngIf="isLoggedIn" class="nav-list">
+        <li><a routerLink="/">Home</a></li>
+        <li><a routerLink="/teams">Teams</a></li>
+        <li><a routerLink="/games">Games</a></li>
+      </ul>
+      <div class="login-button">
+        <a *ngIf="!isLoggedIn" routerLink="/login" class="button">Login</a>
+        <a *ngIf="isLoggedIn" (click)="logout()" class="button">Logout</a>
+      </div>
+    </div>
+</nav>
+  
