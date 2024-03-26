@@ -28,11 +28,28 @@ export class LoginComponent {
         const token = value.token;
         localStorage.setItem('token', token);
         this.userService.loginUser();
+        this.getAccountInfo();
         this.router.navigate(['/home']);
       },
       error: error => 
       {
-        console.error('Login Failed', error)
+        console.error('Login Failed', error);
+      }
+    });
+  }
+
+  getAccountInfo() {
+    this.accountService.getAccount(this.username)
+    .subscribe({
+      next: value =>
+      {
+        console.log('Account', value);
+        const accountId = value.accountId;
+        localStorage.setItem('account', accountId);
+      },
+      error: error => 
+      {
+        console.error('Account info not found', error);
       }
     });
   }

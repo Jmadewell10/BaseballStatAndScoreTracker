@@ -1,0 +1,9 @@
+<!-- create-team.component.html -->
+<form (ngSubmit)="onSubmit()" #teamForm="ngForm" class="team-form">
+    <div class="form-group">
+      <label for="teamName" class="form-label">Team Name:</label>
+      <input type="text" class="form-control" id="teamName" name="teamName" [(ngModel)]="newTeamName" required>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!teamForm.valid">Create Team</button>
+  </form>
+  

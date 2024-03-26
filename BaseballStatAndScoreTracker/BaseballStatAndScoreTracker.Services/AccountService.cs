@@ -1,5 +1,6 @@
 ﻿using BaseballStatAndScoreTracker.Common.Constants;
 using BaseballStatAndScoreTracker.Common.Models;
+using BaseballStatAndScoreTracker.Domain;
 using BaseballStatAndScoreTracker.Repository.Interfaces;
 using BaseballStatAndScoreTracker.Services.Extensions;
 using BaseballStatAndScoreTracker.Services.Interfaces;
@@ -44,6 +45,21 @@ namespace BaseballStatAndScoreTracker.Services
                 return (GenerateToken(), isValid);
             }
             return (String.Empty, false);
+        }
+
+        public async Task<AccountDto> GetAccount(string userName)
+        {
+            Account account = await _accountRepository.GetAccountByUserName(userName);
+            AccountDto accountDto = new AccountDto
+            {
+                AccountId = account.AccountId,
+                Email = account.Email,
+                FirstName = account.FirstName,
+                LastName = account.LastName,
+                UserId = account.UserId
+            };
+
+            return accountDto;
         }
         #endregion
 

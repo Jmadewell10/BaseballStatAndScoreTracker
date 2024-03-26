@@ -49,6 +49,36 @@ namespace BaseballStatAndScoreTracker.Repository
             }
         }
 
+        public async Task<Account> GetAccount(string accountId)
+        {
+            try
+            {
+                Account account = await _context.Accounts.FirstOrDefaultAsync(a => a.AccountId.ToString() == accountId) ?? new Account();
+                return account;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
+                throw;
+            }
+        }
+
+        public async Task<Account> GetAccountByUserName(string userName)
+        {
+            try
+            {
+                User user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName) ?? new User();
+                string userId = user?.UserId.ToString() ?? string.Empty;
+                Account account = await _context.Accounts.FirstOrDefaultAsync(a => a.UserId.ToString() == userId) ?? new Account();
+                return account;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<string>> GetAllUserNames()
         {
             try

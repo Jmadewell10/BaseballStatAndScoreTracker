@@ -1,5 +1,6 @@
 ﻿using BaseballStatAndScoreTracker.Common.Constants;
 using BaseballStatAndScoreTracker.Common.Models;
+using BaseballStatAndScoreTracker.Domain;
 using BaseballStatAndScoreTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +50,13 @@ namespace BaseballStatAndScoreTracker.API.Controllers
             {
                 return Unauthorized(new { Message = ErrorConstants.INCORRECT_CREDENTIALS });
             }
+        }
+
+        [HttpGet("GetAccount")]
+        public async Task<ActionResult<AccountDto>> GetAccount([FromQuery] string userName)
+        {
+            var account = await _accountService.GetAccount(userName);
+            return Ok(account);
         }
     }
 }

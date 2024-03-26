@@ -10,13 +10,17 @@ import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token-interceptor.service';
 import { NavbarComponent } from './navbar/navbar.component';
+import { TeamsComponent } from './teams/teams.component';
+import { NewTeamComponent } from './new-team/new-team.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    NavbarComponent
+    NavbarComponent,
+    TeamsComponent,
+    NewTeamComponent
   ],
   imports: [
     BrowserModule,
